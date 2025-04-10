@@ -1,0 +1,43 @@
+{% extends 'medapp/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'medapp/patient_sidebar.html' %}
+        </div>
+        <div class="col-md-9">
+            <h2>Patient Profile</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Update Profile</button>
+            </form>
+            <h3>Profile Information</h3>
+            <ul>
+                <li><strong>Full Name:</strong> {{ patient.full_name }}</li>
+                <li><strong>Gender:</strong> {{ patient.gender }}</li>
+                <li><strong>Date of Birth:</strong> {{ patient.date_of_birth }}</li>
+                <li><strong>Phone:</strong> {{ patient.phone }}</li>
+                <li><strong>Email:</strong> {{ patient.email }}</li>
+                <li><strong>Street Address:</strong> {{ patient.street_address }}</li>
+                <li><strong>City:</strong> {{ patient.city }}</li>
+                <li><strong>State:</strong> {{ patient.state }}</li>
+                <li><strong>Postal Code:</strong> {{ patient.postal_code }}</li>
+                <li><strong>Country:</strong> {{ patient.country }}</li>
+                <li><strong>Blood Group:</strong> {{ patient.blood_group }}</li>
+                <li><strong>Emergency Contact:</strong> {{ patient.emergency_contact }}</li>
+                <li><strong>Medical History:</strong> {{ patient.medical_history }}</li>
+                <li><strong>Profile Image:</strong> 
+                    {% if patient.profile_image %}
+                        <img src="{{ patient.profile_image.url }}" alt="Profile Image" style="width:100px;height:auto;">
+                    {% else %}
+                        No image uploaded.
+                    {% endif %}
+                </li>
+            </ul>
+            <p><a href="{% url 'home' %}">Back to Home</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

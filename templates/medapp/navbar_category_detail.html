@@ -1,0 +1,47 @@
+{% extends 'medapp/base.html' %}
+
+{% block title %}{{ navbar_category.name }} - MedApp{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-0">
+    <!-- Background Image Section -->
+    <div class="position-relative" style="height: 300px; overflow: hidden;">
+        {% if navbar_category.image %}
+        <img src="{{ navbar_category.image.url }}" class="w-100 h-100" alt="{{ navbar_category.name }}" style="object-fit: cover;">
+        {% endif %}
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center flex-column">
+            <h1 class="text-white display-4">{{ navbar_category.name }}</h1>
+            <p class="text-white display-6">{{ navbar_category.description }}</p>
+        </div>
+    </div>
+
+    <!-- Categories Section -->
+    <h1>Categories from {{ navbar_category.name }}</h1>
+    <div class="container my-5">
+        {% if categories %}
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-4 mb-4">
+                <a href="{% url 'navbar_category_detail' navbar_slug=navbar_category.slug category_slug=category.slug %}" class="text-decoration-none">
+                    <div class="card h-100">
+                        {% if category.image %}
+                        <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}" style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h2 class="h5">{{ category.name }}</h2>
+                            {% if category.description %}
+                            <p class="text-muted">{{ category.description }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted">No categories available in this section.</p>
+        {% endif %}
+    </div>
+    
+</div>
+{% endblock %}

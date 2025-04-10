@@ -1,0 +1,18 @@
+{% extends 'medapp/base.html' %}
+
+{% block content %}
+<h2>Patient Registration</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<p>Already have an account? <a href="{% url 'patient_login' %}">Login here</a></p>
+{% endblock %}

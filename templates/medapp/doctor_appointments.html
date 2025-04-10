@@ -1,0 +1,43 @@
+{% extends 'medapp/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'medapp/doctor_sidebar.html' %}
+        </div>
+        <div class="col-md-9">
+            <h2>Your Appointments</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if appointments %}
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.patient.full_name }}</td>
+                    <td>{{ appointment.appointment_date }}</td>
+                    <td>{{ appointment.appointment_time }}</td>
+                    <td>{{ appointment.status }}</td>
+                    <td>
+                        <a href="{% url 'update_appointment' appointment.id %}" class="btn btn-primary">Update</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="5">No appointments found.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

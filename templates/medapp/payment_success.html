@@ -1,0 +1,32 @@
+{% extends "medapp/base.html" %}
+
+{% block title %}Payment Successful - MedApp{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'medapp/patient_sidebar.html' %}
+        </div>
+        <div class="col-md-9">
+            <h2 class="text-success">Payment Successful!</h2>
+            <div class="alert alert-success" role="alert">
+                Your order has been processed successfully.
+            </div>
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
+            <p><strong>Payment Method:</strong>
+                {% if order.upi_id %}
+                UPI ({{ order.upi_id }})
+                {% else %}
+                Cash on Delivery
+                {% endif %}
+            </p>
+            <p><strong>Status:</strong> {{ order.status }}</p>
+            <p><strong>Expected Time of Delivery:</strong> {{ order.expected_delivery_time }}</p>
+            <p>Thank you for your purchase!</p>
+            <a href="{% url 'continue_order' %}" class="btn btn-primary">Continue the Order</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'medapp/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'medapp/patient_sidebar.html' %}
+        </div>
+        <div class="col-md-9">
+            <h2 class="mb-4">Checkout</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h4 class="card-title">Patient Details</h4>
+                            <div class="mb-4">
+                                <p><strong>Name:</strong> {{ patient.full_name }}</p>
+                                <p><strong>Email:</strong> {{ patient.email }}</p>
+                                <p><strong>Phone:</strong> {{ patient.phone }}</p>
+                                <p><strong>Address:</strong> {{ patient.get_full_address }}</p>
+                            </div>
+
+                            <h4 class="card-title">Order Summary</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in cart.items.all %}
+                                    <tr>
+                                        <td>{{ item.product.name }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>₹{{ item.product.price }}</td>
+                                        <td>₹{{ item.total_price }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Order Total</h4>
+                            <p class="fs-4 text-success fw-bold">₹{{ total }}</p>
+                            <form method="post" action="{% url 'process_payment' %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label>
+                                        <input type="radio" name="payment_method" value="upi" required>
+                                        UPI Payment
+                                    </label>
+                                    <div id="upiField" style="display: none;">
+                                        <label for="upi_id" class="form-label">Enter UPI ID:</label>
+                                        <input type="text" class="form-control" name="upi_id" id="upi_id"
+                                            placeholder="yourname@upi">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label>
+                                        <input type="radio" name="payment_method" value="cod" required>
+                                        Cash on Delivery
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    Confirm Order
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.querySelectorAll('input[name="payment_method"]').forEach((radio) => {
+                radio.addEventListener('change', function () {
+                    const upiField = document.getElementById('upiField');
+                    if (this.value === 'upi') {
+                        upiField.style.display = 'block';
+                    } else {
+                        upiField.style.display = 'none';
+                    }
+                });
+            });
+        </script>
+    </div>
+</div>
+{% endblock %}

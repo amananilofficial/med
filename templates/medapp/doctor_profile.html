@@ -1,0 +1,40 @@
+{% extends 'medapp/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'medapp/doctor_sidebar.html' %}
+        </div>
+        <div class="col-md-9">
+            <h2>Doctor Profile</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Update Profile</button>
+            </form>
+            <h3>Profile Information</h3>
+            <ul>
+                <li><strong>Full Name:</strong> {{ doctor.full_name }}</li>
+                <li><strong>Specialization:</strong> {{ doctor.specialization }}</li>
+                <li><strong>Phone:</strong> {{ doctor.phone }}</li>
+                <li><strong>Email:</strong> {{ doctor.email }}</li>
+                <li><strong>Street Address:</strong> {{ doctor.street_address }}</li>
+                <li><strong>City:</strong> {{ doctor.city }}</li>
+                <li><strong>State:</strong> {{ doctor.state }}</li>
+                <li><strong>Postal Code:</strong> {{ doctor.postal_code }}</li>
+                <li><strong>Country:</strong> {{ doctor.country }}</li>
+                <li><strong>Clinic Address:</strong> {{ doctor.clinic_address }}</li>
+                <li><strong>Profile Image:</strong> 
+                    {% if doctor.profile_image %}
+                        <img src="{{ doctor.profile_image.url }}" alt="Profile Image" style="width:100px;height:auto;">
+                    {% else %}
+                        No image uploaded.
+                    {% endif %}
+                </li>
+            </ul>
+            <p><a href="{% url 'home' %}">Back to Home</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %} 

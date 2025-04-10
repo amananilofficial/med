@@ -1,0 +1,50 @@
+{% extends 'medapp/base.html' %}
+
+{% block title %}{{ subcategory.name }} - MedApp{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-0">
+    <!-- Background Image Section -->
+    <div class="position-relative" style="height: 300px; overflow: hidden;">
+        {% if subcategory.image %}
+        <img src="{{ subcategory.image.url }}" class="w-100 h-100" alt="{{ subcategory.name }}"
+            style="object-fit: cover;">
+        {% endif %}
+        <div
+            class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center flex-column">
+            <h1 class="text-white display-4">{{ subcategory.name }}</h1>
+            <p class="text-white display-6">{{ subcategory.description }}</p>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <h1>Products from {{ subcategory.name }}</h1>
+    <div class="container my-5">
+        {% if products %}
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <a href="{% url 'product_detail' navbar_slug=subcategory.category.navbar_category.slug category_slug=subcategory.category.slug subcategory_slug=subcategory.slug product_slug=product.slug %}"
+                    class="text-decoration-none">
+                    <div class="card h-100">
+                        {% if product.main_image %}
+                        <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}"
+                            style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h2 class="h5">{{ product.name }}</h2>
+                            <p class="text-muted">{{ product.description|truncatechars:100 }}</p>
+                            <p class="text-primary fw-bold">₹{{ product.price }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted">No products available in this subcategory.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

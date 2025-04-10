@@ -1,0 +1,27 @@
+{% extends 'medapp/base.html' %}
+
+{% block content %}
+<h2>Doctor Login</h2>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" name="username" required>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+    </div>
+    <button type="submit">Login</button>
+</form>
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% if request.user.is_authenticated and request.user.is_admin %}
+<p>Don't have an account? <a href="{% url 'create_doctor_profile' %}">Create Profile</a></p>
+{% endif %}
+{% endblock %} 

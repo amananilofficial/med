@@ -1,0 +1,18 @@
+{% extends "medapp/base.html" %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'medapp/patient_sidebar.html' %}
+        </div>
+        <div class="col-md-9">
+            <h2>Order Details</h2>
+            <p><strong>Order ID:</strong> {{ order_id }}</p>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Continue Shopping</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
